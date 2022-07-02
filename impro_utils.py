@@ -329,7 +329,7 @@ def svd_compress(data, num_singval=100):
     Parameters
     ----------
     data : 2D complex/real array
-    num_sing_val: int value, number of singular values
+    num_singval: int value, number of singular values
 
     Returns
     -------
@@ -346,7 +346,6 @@ def svd_compress(data, num_singval=100):
     vecnum = min(num_singval, width, height)    
 
     # Here we reconstruct our image following the original equation for M = uSv
-    # This will not give us the image in our desired shape, so we must reshape the array
     new_image = u[:,:vecnum] @ W[:vecnum,:vecnum] @ v[:vecnum,:]
 
     return new_image
