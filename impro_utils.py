@@ -339,7 +339,7 @@ def svd_compress(data, num_singval=100):
 
     u, s, v = np.linalg.svd(data)
 
-    S = np.diag(s)
+    W = np.diag(s)
 
     # We want to make sure the number of singular values kept is not 
     # greater than the image dimensions
@@ -347,6 +347,6 @@ def svd_compress(data, num_singval=100):
 
     # Here we reconstruct our image following the original equation for M = uSv
     # This will not give us the image in our desired shape, so we must reshape the array
-    new_image = u[:,:vecnum] @ S[:vecnum,:vecnum] @ v[:vecnum,:]
+    new_image = u[:,:vecnum] @ W[:vecnum,:vecnum] @ v[:vecnum,:]
 
     return new_image
