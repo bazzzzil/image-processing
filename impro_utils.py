@@ -45,9 +45,9 @@ def load_data(filename):
         return np.squeeze(file_contents[key_var])
 
     else:
-        
-        image = cv.imread(filename)
-        return np.squeeze(image[:,:,1])
+        # Pass as gray image
+        image = cv.imread(filename, 0)
+        return np.squeeze(image)
 
 
 def plot_img(data, plot_title="Image"):
@@ -303,4 +303,50 @@ def high_pass(data):
 
     return conv2(data, high_pass,'same')
 
+def img_mask(data, threshold):
+    """
+    Returns a mask based on a threshold of the 
+    original image.
 
+    Parameters
+    ----------
+    data : 2D complex/real array
+    threshold: float value between 0 and 1
+
+    Returns
+    -------
+    mask : 2D logical array
+    """    
+
+    return data < max(data.flatten())*threshold
+
+def svd_compress(data, num_singval=100):
+    """
+    Returns compressed image based off SVD
+    algorithm. Can control level of compression.
+    Only works with grayscale images.
+
+    Parameters
+    ----------
+    data : 2D complex/real array
+    num_sing_val: int value, number of singular values
+
+    Returns
+    -------
+    new_image : 2D array (compressed image)
+    """    
+    (width, height) = np.shape(data)
+
+    u, s, v = np.linalg.svd(data)
+
+    S = np.diag(s)
+
+    # We want to make sure the number of singular values kept is not 
+    # greater than the image dimensions
+    vecnum = min(num_singval, width, height)    
+
+    # Here we reconstruct our image following the original equation for M = uSv
+    # This will not give us the image in our desired shape, so we must reshape the array
+    new_image = u[:,:vecnum] @ S[:vecnum,:vecnum] @ v[:vecnum,:]
+
+    return new_image
