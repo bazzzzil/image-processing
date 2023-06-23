@@ -14,6 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io as sio
 from scipy.fftpack import fft2, ifft2, fftshift, ifftshift
+from scipy.fft import dctn, idctn
 from scipy.signal import convolve2d as conv2
 
 def load_data(filename):
@@ -348,4 +349,27 @@ def svd_compress(data, num_singval=100):
     # Here we reconstruct our image following the original equation for M = uSv
     new_image = u[:,:vecnum] @ W[:vecnum,:vecnum] @ v[:vecnum,:]
 
+    return new_image
+
+def dct_compress(data, num_coeff):
+    """
+    Returns compressed image based off DCT
+    algorithm. Can control level of compression.
+    Only works with grayscale images.
+
+    Parameters
+    ----------
+    data : 2D complex/real array
+    num_coeff: int value, number of DCT coefficients
+
+    Returns
+    -------
+    new_image : 2D array (compressed image)
+    """    
+    (width, height) = np.shape(data)
+
+    dct_coeffs = dctn(data, norm='ortho')
+
+    new_image = idctn(dct_coeffs[0:num_coeff,0:num_coeff], norm='ortho')
+        
     return new_image

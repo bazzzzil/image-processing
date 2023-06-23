@@ -6,8 +6,10 @@ This repo is a collection of image processing techniques I've learned over the y
 
 `example.ipynb` and `fourier_demo.ipynb` are Jupyter notebook files that apply the functions from `impro_utils.py` to showcase some imaging processing techniques. Example image files, `lena.mat` and `test2.jpg`, are provided.
 
-`image_compression.ipynb` is a notebook that demonstrates SVD-based image compression. `image_segmentation.ipynb` showcases traditional image segmentation techniques.
+`svd_compression.ipynb` is a notebook that demonstrates SVD-based image compression. `dct_compression.ipynb` is a notebook that demonstrates DCT-based image compression. `image_segmentation.ipynb` showcases traditional image segmentation techniques.
 
-`img_segment_nn.ipynb`is a notebook that demonstrates the use of Transformaers in image segmentation and compares with the traditional techniques. 
+`img_segment_nn.ipynb`is a notebook that demonstrates the use of Transformers in image segmentation and compares with the traditional techniques. 
 
-WIP: `img_segment_unet.ipynb` (as of Nov 26 2022)
+WIP: 
+`img_segment_unet.ipynb` (as of Nov 26 2022)
+`wavelet_compression.ipynb` (as of Jun 23 2023)
