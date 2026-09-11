@@ -67,6 +67,9 @@ def plot_img(data, plot_title="Image"):
     -------
     Nothing.
     """
+    # Setting font size to 16
+    # plt.rcParams.update({'font.size': 30})
+
     plt.imshow(data)
     plt.xticks([],[])
     plt.yticks([],[])
