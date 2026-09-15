@@ -12,6 +12,7 @@ import os
 import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
+import pywt
 import scipy.io as sio
 from scipy.fftpack import fft2, ifft2, fftshift, ifftshift
 from scipy.fft import dctn, idctn
@@ -345,8 +346,8 @@ def svd_compress(data, num_singval=100):
 
     W = np.diag(s)
 
-    # We want to make sure the number of singular values kept is not 
-    # greater than the image dimensions
+    # We want to make sure the number of singular values
+    # kept is not greater than the image dimensions
     vecnum = min(num_singval, width, height)    
 
     # Here we reconstruct our image following the original equation for M = uSv
@@ -374,5 +375,34 @@ def dct_compress(data, num_coeff):
     dct_coeffs = dctn(data, norm='ortho')
 
     new_image = idctn(dct_coeffs[0:num_coeff,0:num_coeff], norm='ortho')
+        
+    return new_image
+
+def wvt_compress(data, wvlt='db1', lvl=1):
+    """
+    Returns compressed image based off Wavelet transform
+    algorithm. Can control level of compression.
+    Only works with grayscale images.
+
+    Parameters
+    ----------
+    data : 2D complex/real array
+    wvlt: string, wavelet type
+    lvl: int, level of decomposition
+
+    Returns
+    -------
+    new_image : 2D array (compressed image)
+    """    
+    wvlt_coeffs = pywt.wavedec2(data, wavelet=wvlt, level=lvl)
+
+    wvlt_array, coeff_slices = pywt.coeffs_to_array(wvlt_coeffs)
+    thresh = max(abs(wvlt_array).flatten())*0.01
+
+    # Filtering threshold to reduce quantity of data in reconstruction
+    wvtl_thresh = wvlt_array * (abs(wvlt_array) > thresh) # Threshold small indices
+
+    coeffs_filt = pywt.array_to_coeffs(wvtl_thresh,coeff_slices,output_format='wavedec2')
+    new_image = pywt.waverec2(coeffs_filt,wavelet=wvlt)
         
     return new_image

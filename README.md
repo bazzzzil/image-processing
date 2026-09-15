@@ -11,5 +11,6 @@ This repo is a collection of image processing techniques I've learned over the y
 `img_segment_nn.ipynb`is a notebook that demonstrates the use of Transformers in image segmentation and compares with the traditional techniques. 
 
 WIP: 
-`img_segment_unet.ipynb` (as of Nov 26 2022)
-`wavelet_compression.ipynb` (as of Jun 23 2023)
+`wavelet_compression.ipynb` (as of Sep 11 2026)
+Basis function visualization for DCT compression (complete as of Sep 14 2026)
+Deeper discussion on FT vs FFT for Fourier transform (as of Sep 11 2026)
